@@ -1,0 +1,138 @@
+* {
+    font-family:
+        Helvetica Neue,
+        Segoe UI,
+        sans-serif;
+    margin: 0;
+}
+
+input[type="text"] {
+    width: 300px;
+}
+
+:checked + input[type="text"] {
+    color: gray;
+    font-style: italic;
+    text-decoration: line-through;
+}
+
+fieldset {
+    display: contents;
+}
+
+h1 {
+    font-size: 3rem;
+    text-align: center;
+    padding-top: 2vh;
+}
+
+h2 {
+    text-align: center;
+    font-size: 2rem;
+}
+
+nav {
+    height: 5vh;
+    padding: 2vh 2vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav form {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+nav form fieldset {
+    display: flex;
+    flex-direction: row;
+    gap: 2vw;
+}
+
+nav form img {
+    height: 100%;
+    opacity: 0;
+}
+
+.page {
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2vh;
+}
+
+#message form {
+    height: 5%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 2vw;
+}
+
+#message form img {
+    height: 100%;
+    display: none;
+}
+
+ul {
+    width: 50vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    gap: 2vh;
+}
+
+#message ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#message ul li {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 2vh 2vw;
+    border: 2px black solid;
+}
+
+#contacts ul li {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 3vw;
+    padding: 2vh 2vw;
+    border: 2px black solid;
+}
+
+#contacts ul li:hover {
+    cursor: pointer;
+}
+
+.message-buttons {
+    width: 20%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+button {
+    padding: 0vh 1vw;
+}
+
+input[type="submit"] {
+    padding: 0 1vw;
+}
+
+#contacts ul #no-chat:hover {
+    cursor: default;
+}

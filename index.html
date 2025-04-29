@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Designftw Chatroom</title>
+        <script type="importmap">
+            {
+                "imports": {
+                    "vue": "https://cdn.jsdelivr.net/npm/vue@3.5.13/dist/vue.esm-browser.js",
+                    "@graffiti-garden/implementation-local": "https://cdn.jsdelivr.net/npm/@graffiti-garden/implementation-local@0.6.4/dist/browser/index.js",
+                    "@graffiti-garden/implementation-remote": "https://cdn.jsdelivr.net/npm/@graffiti-garden/implementation-remote@0.6.2/dist/browser/index.js",
+                    "@graffiti-garden/wrapper-vue": "https://cdn.jsdelivr.net/npm/@graffiti-garden/wrapper-vue@0.7.2/dist/browser/plugin.mjs"
+                }
+            }
+        </script>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <div id="app">
+            <h1 v-if="!$graffitiSession.value">DesignFTW Chatroom</h1>
+            <h1 v-else>{{$graffitiSession.value.actor}}</h1>
+
+            <!--nav bar-->
+            <nav>
+                <button v-if="(!$graffitiSession.value) && (currentGroupChannel === undefined)" @click="$graffiti.login()">
+                    Log In
+                </button>
+                <button v-if="($graffitiSession.value) && (currentGroupChannel === undefined)" @click="$graffiti.logout($graffitiSession.value)">
+                    Log Out
+                </button>
+                <button v-if="($graffitiSession.value) && (currentGroupChannel !== undefined)" @click="goBackHome()">
+                    Back
+                </button>
+
+                <!--create a new DM-->
+                <form v-if="$graffitiSession.value && (currentGroupChannel === undefined)" @submit.prevent="createGroupChat($graffitiSession.value, $graffitiSession.value.actor)">
+                    <fieldset>
+                        <input type="text" v-model="groupName" placeholder="Person Name">
+                        <input type="submit" value="Create DM">
+                    </fieldset>
+                    <img id="create-dm-loading" src="loading.gif" alt="Loading Indicator">
+                </form>
+            </nav>
+
+            
+
+            <!--contacts page-->
+            <div id="contacts" class="page" v-if="(currentGroupChannel === undefined) && ($graffitiSession.value !== null) && ($graffitiSession.value !== undefined)">
+                <h2>DMs</h2>
+                <graffiti-discover
+                    v-slot="{objects: groupChatObjects}"
+                    :channels="[$graffitiSession.value.actor]"
+                    :schema="{
+                        properties: {
+                            value: {
+                                required: ['activity', 'object'],
+                                properties: {
+                                    activity: {type : 'string'},
+                                    object: {
+                                        required: ['type', 'name', 'channel'],
+                                        properties: {
+                                            type: {type: 'string'},
+                                            name: {type: 'string'},
+                                            channel: {type: 'string'}
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }"
+                >
+                    <ul>
+                        <li id="no-chat" v-if="groupChatObjects.length === 0">
+                            No Chats Exist. Add a Chat Above.
+                        </li>
+                        <li v-for="object of groupChatObjects" @click="setCurrentGroupChannel(object.value.object.channel)">
+                            <p>{{object.value.object.name}}</p>
+                            <button v-if="object.actor === $graffitiSession.value.actor" @click.stop="renameGroupChat($graffitiSession.value, object.url)">Rename</button>
+                            <button v-if="object.actor === $graffitiSession.value.actor" @click.stop="deleteGroupChat($graffitiSession.value, object.url)">Delete</button>
+                        </li>
+                    </ul>
+                </graffiti-discover>
+            </div>
+
+            <!--sending a message-->
+            <div id="message" class="page" v-if="(currentGroupChannel !== undefined) && ($graffitiSession.value !== null) && ($graffitiSession.value !== undefined)">
+                <h2>{{currentGroupChannel[0]}} DMs</h2>
+
+                <form @submit.prevent="sendMessage($graffitiSession.value)">
+                    <fieldset :disabled="sending">
+                        <input
+                            type="text"
+                            v-model="myMessage"
+                            placeholder="Message"
+                            ref="messageInput"
+                        />
+                        <input
+                            type="submit"
+                            :value="sending? 'Sending...' : 'Send'"
+                        />
+                    </fieldset>
+                    <img id="send-message-loading" src="loading.gif" alt="Loading Indicator">
+                </form>
+                
+                <graffiti-discover
+                    v-if="$graffitiSession.value !== null"
+                    v-slot="{ objects: messageObjects, isInitialPolling }"
+                    :channels="currentGroupChannel"
+                    :schema="{
+                        properties: {
+                            value: {
+                                required: ['content', 'published'],
+                                properties: {
+                                    content: { type: 'string' },
+                                    published: { type: 'number' }
+                                }
+                            }
+                        }
+                    }"
+                >
+                    <ul>
+                        <li v-if="isInitialPolling">Loading...</li>
+                        <li
+                            v-for="object of messageObjects.sort((a, b) => b.value.published - a.value.published)"
+                            :key="object.url"
+                        >
+                            <div class="messages">
+                                <strong>
+                                    {{ object.actor }}
+                                    <span v-if="object.actor === $graffitiSession.value.actor">(you)</span>
+                                </strong>
+                                : {{ object.value.content }}
+                            </div>
+
+                            <div class="message-buttons">
+                                <button v-if="object.actor === $graffitiSession.value.actor" @click="editMessage($graffitiSession.value, object.url)">Edit</button>
+                                <button v-if="object.actor === $graffitiSession.value.actor" @click="deleteMessage($graffitiSession.value, object.url)">Delete</button>
+                            </div>
+                        </li>
+                    </ul>
+                </graffiti-discover>
+            </div>
+        </div>
+
+        <script src="index.js" type="module"></script>
+    </body>
+</html>
