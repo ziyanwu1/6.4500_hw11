@@ -2,8 +2,12 @@ import { createApp } from "vue";
 import { GraffitiLocal } from "@graffiti-garden/implementation-local";
 import { GraffitiRemote } from "@graffiti-garden/implementation-remote";
 import { GraffitiPlugin } from "@graffiti-garden/wrapper-vue";
+import { defineAsyncComponent } from "vue";
+import { Navbar } from "./navbar.js";
 
 createApp({
+	components: { Navbar: defineAsyncComponent(Navbar)},
+
   	data() {
 		return {
 			myMessage: "",

@@ -18,11 +18,13 @@
     </head>
     <body>
         <div id="app">
+            <navbar v-if="$graffitiSession.value"></navbar>
+
             <h1 v-if="!$graffitiSession.value">DesignFTW Chatroom</h1>
             <h1 v-else>{{$graffitiSession.value.actor}}</h1>
 
-            <!--nav bar-->
-            <nav>
+            <!--home page bar-->
+            <div class="home-bar">
                 <button v-if="(!$graffitiSession.value) && (currentGroupChannel === undefined)" @click="$graffiti.login()">
                     Log In
                 </button>
@@ -41,9 +43,7 @@
                     </fieldset>
                     <img id="create-dm-loading" src="loading.gif" alt="Loading Indicator">
                 </form>
-            </nav>
-
-            
+            </div>
 
             <!--contacts page-->
             <div id="contacts" class="page" v-if="(currentGroupChannel === undefined) && ($graffitiSession.value !== null) && ($graffitiSession.value !== undefined)">

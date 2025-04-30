@@ -31,7 +31,7 @@ h2 {
     font-size: 2rem;
 }
 
-nav {
+.home-bar {
     height: 5vh;
     padding: 2vh 2vw;
     display: flex;
@@ -40,20 +40,20 @@ nav {
     align-items: center;
 }
 
-nav form {
+.home-bar form {
     height: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
-nav form fieldset {
+.home-bar form fieldset {
     display: flex;
     flex-direction: row;
     gap: 2vw;
 }
 
-nav form img {
+.home-bar form img {
     height: 100%;
     opacity: 0;
 }
@@ -135,4 +135,13 @@ input[type="submit"] {
 
 #contacts ul #no-chat:hover {
     cursor: default;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2vh 2vw;
+    font-size: 1.5rem;
+    gap: 2vw;
 }
