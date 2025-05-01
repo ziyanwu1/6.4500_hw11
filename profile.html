@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Profile</title>
+        <script type="importmap">
+            {
+                "imports": {
+                    "vue": "https://cdn.jsdelivr.net/npm/vue@3.5.13/dist/vue.esm-browser.js",
+                    "@graffiti-garden/implementation-local": "https://cdn.jsdelivr.net/npm/@graffiti-garden/implementation-local@0.6.4/dist/browser/index.js",
+                    "@graffiti-garden/implementation-remote": "https://cdn.jsdelivr.net/npm/@graffiti-garden/implementation-remote@0.6.2/dist/browser/index.js",
+                    "@graffiti-garden/wrapper-vue": "https://cdn.jsdelivr.net/npm/@graffiti-garden/wrapper-vue@0.7.2/dist/browser/plugin.mjs"
+                }
+            }
+        </script>
+        <link rel="stylesheet" href="profile.css" />
+    </head>
+    <body>
+        <div id="app">
+            <navbar v-if="$graffitiSession.value"></navbar>
+            <h1 v-if="$graffitiSession.value">{{$graffitiSession.value.actor}}</h1>
+
+            <div v-if="userId === null">
+                <graffiti-discover
+                    v-if="$graffitiSession.value"
+                    v-slot="{objects: profileObjects}"
+                    :channels="[$graffitiSession.value.actor]"
+                    :schema="{
+                        properties: {
+                            value: {
+                                required: ['object'],
+                                properties: {
+                                    object: {
+                                        required: ['name', 'pic', 'pronouns', 'bio'],
+                                        properties: {
+                                            name: {type: 'string'},
+                                            pic: {type: 'string'},
+                                            pronouns: {type: 'string'},
+                                            bio: {type: 'string'},
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }"
+                >
+                    <div id="profile-creation-screen" v-if="profileObjects.length === 0">
+                        <h2>Create a Profile!</h2>
+                        <form @submit.prevent="createProfile($graffitiSession.value, $graffitiSession.value.actor)">
+                            <fieldset :disabled="sending">
+                                <div class="question-field">
+                                    <label>Name:</label>
+                                    <input
+                                        type="text"
+                                        v-model="inputName"
+                                        placeholder="Enter Name Here"
+                                    />
+                                </div>
+                                <div class="question-field">
+                                    <label>Picture URL:</label>
+                                    <input
+                                        type="text"
+                                        v-model="inputPic"
+                                        placeholder="Enter Picture URL Here"
+                                    />
+                                </div>
+                                <div class="question-field">
+                                    <label>Pronouns:</label>
+                                    <input
+                                        type="text"
+                                        v-model="inputPronouns"
+                                        placeholder="Enter Pronouns Here"
+                                    />
+                                </div>
+                                <div class="question-field">
+                                    <label>Bio:</label>
+                                    <input
+                                        type="text"
+                                        v-model="inputBio"
+                                        placeholder="Enter Bio Here"
+                                    />
+                                </div>
+                                <input
+                                    type="submit"
+                                    :value="sending? 'Sending...' : 'Submit'"
+                                />
+                            </fieldset>
+                            <img id="send-message-loading" src="loading.gif" alt="Loading Indicator">
+                        </form>
+                    </div>
+                    <div v-else>
+                        <!--make them editable-->
+                        <p>{{profileObjects[0].value.object.name}}</p>
+                        <p>{{profileObjects[0].value.object.pic}}</p>
+                        <p>{{profileObjects[0].value.object.pronouns}}</p>
+                        <p>{{profileObjects[0].value.object.bio}}</p>
+                    </div>
+
+                </graffiti-discover>
+            </div>
+
+            <!--other person access's profile-->
+            <div v-else>
+                <p>other page</p>
+                <!--1: a page exists, so we just display it well-->
+                <!--2: a page doesn't exist so we just display "no profile exists with this name"-->
+            </div>
+        </div>
+    
+        <script src="profile.js" type="module"></script>
+    </body>
+</html>
+
