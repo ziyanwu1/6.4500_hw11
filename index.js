@@ -14,6 +14,9 @@ createApp({
 			sending: false,
 			groupName: "",
 			currentGroupChannel: undefined,
+			currentGroupName: undefined,
+			user1: "",
+			user2: "",
 		};
   	},
 
@@ -73,6 +76,8 @@ createApp({
 							type: 'Group Chat',
 							name: newName,
 							channel: newChannel,
+							user1: user,
+							user2: this.groupName,
 						}
 					},
 					channels: [user, this.groupName],
@@ -84,8 +89,11 @@ createApp({
 			this.groupName = "";
 		},
 
-		setCurrentGroupChannel(channel) {
+		setCurrentGroupChannel(channel, user1, user2, groupName) {
 			this.currentGroupChannel = [channel];
+			this.user1 = user1;
+			this.user2 = user2;
+			this.currentGroupName = groupName;
 		},
 
 		async deleteMessage(session, url) {
@@ -124,6 +132,9 @@ createApp({
 
 		goBackHome() {
 			this.currentGroupChannel = undefined;
+			this.user1 = undefined;
+			this.user2 = undefined;
+			this.currentGroupName = undefined;
 		}
   	},
 })

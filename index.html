@@ -62,7 +62,9 @@
                                         properties: {
                                             type: {type: 'string'},
                                             name: {type: 'string'},
-                                            channel: {type: 'string'}
+                                            channel: {type: 'string'},
+                                            user1: {type: 'string'},
+                                            user2: {type: 'string'},
                                         }
                                     }
                                 }
@@ -74,7 +76,7 @@
                         <li id="no-chat" v-if="groupChatObjects.length === 0">
                             No Chats Exist. Add a Chat Above.
                         </li>
-                        <li v-for="object of groupChatObjects" @click="setCurrentGroupChannel(object.value.object.channel)">
+                        <li v-for="object of groupChatObjects" @click="setCurrentGroupChannel(object.value.object.channel, object.value.object.user1, object.value.object.user2, object.value.object.name)">
                             <p>{{object.value.object.name}}</p>
                             <button v-if="object.actor === $graffitiSession.value.actor" @click.stop="renameGroupChat($graffitiSession.value, object.url)">Rename</button>
                             <button v-if="object.actor === $graffitiSession.value.actor" @click.stop="deleteGroupChat($graffitiSession.value, object.url)">Delete</button>
@@ -85,7 +87,9 @@
 
             <!--sending a message-->
             <div id="message" class="page" v-if="(currentGroupChannel !== undefined) && ($graffitiSession.value !== null) && ($graffitiSession.value !== undefined)">
-                <h2>{{currentGroupChannel[0]}} DMs</h2>
+                <h2>{{currentGroupName}}</h2>
+
+                <h3>TODO: other person's profile link here</h3>
 
                 <form @submit.prevent="sendMessage($graffitiSession.value)">
                     <fieldset :disabled="sending">
