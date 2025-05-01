@@ -19,7 +19,6 @@
     <body>
         <div id="app">
             <navbar v-if="$graffitiSession.value"></navbar>
-            <h1 v-if="$graffitiSession.value">{{$graffitiSession.value.actor}}</h1>
 
             <div class="main-content" v-if="userId === null">
                 <graffiti-discover
@@ -45,6 +44,7 @@
                         }
                     }"
                 >
+                    <h1 v-if="$graffitiSession.value">{{$graffitiSession.value.actor}}</h1>
                     <div id="profile-creation-screen" v-if="profileObjects.length === 0">
                         <h2>Create a Profile!</h2>
                         <form @submit.prevent="createProfile($graffitiSession.value, $graffitiSession.value.actor)">
@@ -129,9 +129,66 @@
 
             <!--other person access's profile-->
             <div class="main-content" v-else>
-                <p>other page</p>
-                <!--1: a page exists, so we just display it well-->
-                <!--2: a page doesn't exist so we just display "no profile exists with this name"-->
+                <graffiti-discover
+                    v-if="$graffitiSession.value"
+                    v-slot="{objects: profileObjects}"
+                    :channels="[userId]"
+                    :schema="{
+                        properties: {
+                            value: {
+                                required: ['object'],
+                                properties: {
+                                    object: {
+                                        required: ['name', 'pic', 'pronouns', 'bio'],
+                                        properties: {
+                                            name: {type: 'string'},
+                                            pic: {type: 'string'},
+                                            pronouns: {type: 'string'},
+                                            bio: {type: 'string'},
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }"
+                >
+                    <h1>{{userId}}</h1>
+
+                    <!--no person with this name exists-->
+                    <div class="no-exist" v-if="profileObjects.length === 0">
+                        <h2>This user has not yet made a profile OR this user does not exist.</h2>
+                    </div>
+
+                    <!--display the queried user's profile-->
+                    <div v-else>
+                        <div class="profile-container">
+                            <div class="field-container">
+                                <div class="field-label">
+                                    <label>Name:</label>
+                                </div>
+                                <p>{{profileObjects[0].value.object.name}}</p>
+                            </div>
+
+                            <div class="field-container">
+                                <img :src="profileObjects[0].value.object.pic" alt="profile picture">
+                            </div>
+
+                            <div class="field-container">
+                                <div class="field-label">
+                                    <label>Pronouns:</label>
+                                </div>
+                                <p>{{profileObjects[0].value.object.pronouns}}</p>
+                            </div>
+
+                            <div class="field-container">
+                                <div class="field-label">
+                                    <label>Bio:</label>
+                                </div>
+                                <p>{{profileObjects[0].value.object.bio}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </graffiti-discover>
             </div>
         </div>
     
