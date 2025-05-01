@@ -46,6 +46,58 @@ createApp({
 
             loading.style.display = "none";
         },
+
+        async renameName(session, url) {
+            const newName = prompt("Edit Name:");
+			if (newName === null) {
+				return;
+			}
+
+			await this.$graffiti.patch(
+				{"value": [{"op": "replace", "path": "/object/name", "value": newName}]},
+				url,
+				session,
+			);
+        },
+
+        async renamePic(session, url) {
+            const newName = prompt("Edit Pic:");
+			if (newName === null) {
+				return;
+			}
+
+			await this.$graffiti.patch(
+				{"value": [{"op": "replace", "path": "/object/pic", "value": newName}]},
+				url,
+				session,
+			);
+        },
+
+        async renamePronouns(session, url) {
+            const newName = prompt("Edit Pronouns:");
+			if (newName === null) {
+				return;
+			}
+
+			await this.$graffiti.patch(
+				{"value": [{"op": "replace", "path": "/object/pronouns", "value": newName}]},
+				url,
+				session,
+			);
+        },
+
+        async renameBio(session, url) {
+            const newName = prompt("Edit Bio:");
+			if (newName === null) {
+				return;
+			}
+
+			await this.$graffiti.patch(
+				{"value": [{"op": "replace", "path": "/object/bio", "value": newName}]},
+				url,
+				session,
+			);
+        }
     },
 })
 .use(GraffitiPlugin, {

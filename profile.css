@@ -67,3 +67,42 @@ nav {
     align-items: center;
     gap: 1vh;
 }
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-container {
+    width: 80vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px black solid;
+    padding: 2vh 2vw;
+    gap: 4vh;
+}
+
+.field-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+    align-items: center;
+}
+
+.field-container p {
+    font-size: 1.25rem;
+}
+
+.field-label {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 2vw;
+}
+
+.field-label label {
+    font-size: 1.75rem;
+    font-weight: bold;
+}

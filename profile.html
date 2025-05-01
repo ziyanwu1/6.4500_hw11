@@ -21,7 +21,7 @@
             <navbar v-if="$graffitiSession.value"></navbar>
             <h1 v-if="$graffitiSession.value">{{$graffitiSession.value.actor}}</h1>
 
-            <div v-if="userId === null">
+            <div class="main-content" v-if="userId === null">
                 <graffiti-discover
                     v-if="$graffitiSession.value"
                     v-slot="{objects: profileObjects}"
@@ -90,18 +90,45 @@
                         </form>
                     </div>
                     <div v-else>
-                        <!--make them editable-->
-                        <p>{{profileObjects[0].value.object.name}}</p>
-                        <p>{{profileObjects[0].value.object.pic}}</p>
-                        <p>{{profileObjects[0].value.object.pronouns}}</p>
-                        <p>{{profileObjects[0].value.object.bio}}</p>
+                        <div class="profile-container">
+                            <div class="field-container">
+                                <div class="field-label">
+                                    <label>Name:</label>
+                                    <button @click.stop="renameName($graffitiSession.value, profileObjects[0].url)">Edit</button>
+                                </div>
+                                <p>{{profileObjects[0].value.object.name}}</p>
+                            </div>
+
+                            <div class="field-container">
+                                <div class="field-label">
+                                    <button @click.stop="renamePic($graffitiSession.value, profileObjects[0].url)">Edit</button>
+                                </div>
+                                <img :src="profileObjects[0].value.object.pic" alt="profile picture">
+                            </div>
+
+                            <div class="field-container">
+                                <div class="field-label">
+                                    <label>Pronouns:</label>
+                                    <button @click.stop="renamePronouns($graffitiSession.value, profileObjects[0].url)">Edit</button>
+                                </div>
+                                <p>{{profileObjects[0].value.object.pronouns}}</p>
+                            </div>
+
+                            <div class="field-container">
+                                <div class="field-label">
+                                    <label>Bio:</label>
+                                    <button @click.stop="renameBio($graffitiSession.value, profileObjects[0].url)">Edit</button>
+                                </div>
+                                <p>{{profileObjects[0].value.object.bio}}</p>
+                            </div>
+                        </div>
                     </div>
 
                 </graffiti-discover>
             </div>
 
             <!--other person access's profile-->
-            <div v-else>
+            <div class="main-content" v-else>
                 <p>other page</p>
                 <!--1: a page exists, so we just display it well-->
                 <!--2: a page doesn't exist so we just display "no profile exists with this name"-->
