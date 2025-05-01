@@ -89,7 +89,8 @@
             <div id="message" class="page" v-if="(currentGroupChannel !== undefined) && ($graffitiSession.value !== null) && ($graffitiSession.value !== undefined)">
                 <h2>{{currentGroupName}}</h2>
 
-                <h3>TODO: other person's profile link here</h3>
+                <a v-if="$graffitiSession.value.actor === user1" :href="'profile.html?id=' + user2">{{user2}}'s Profile</a>
+                <a v-else :href="'profile.html?id=' + user1">{{user1}}'s Profile</a>
 
                 <form @submit.prevent="sendMessage($graffitiSession.value)">
                     <fieldset :disabled="sending">
