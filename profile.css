@@ -56,6 +56,11 @@ nav {
     background-color: sandybrown;
 }
 
+nav a:hover {
+    background-color: #00ffd0;
+    transform: scale(1.1);
+}
+
 #send-message-loading {
     height: 5vh;
     display: none;

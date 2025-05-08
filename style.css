@@ -146,3 +146,8 @@ nav {
     gap: 2vw;
     background-color: sandybrown;
 }
+
+nav a:hover {
+    background-color: #00ffd0;
+    transform: scale(1.1);
+}
