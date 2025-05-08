@@ -116,6 +116,7 @@ ul {
 
 #contacts ul li:hover {
     cursor: pointer;
+    background-color: #ffbb00;
 }
 
 .message-buttons {
