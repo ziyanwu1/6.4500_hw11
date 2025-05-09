@@ -15,6 +15,7 @@ createApp({
 			groupName: "",
 			currentGroupChannel: undefined,
 			currentGroupName: undefined,
+			query: "",
 			user1: "",
 			user2: "",
 		};
@@ -94,6 +95,7 @@ createApp({
 			this.user1 = user1;
 			this.user2 = user2;
 			this.currentGroupName = groupName;
+			this.query = "";
 		},
 
 		async deleteMessage(session, url) {
@@ -135,7 +137,7 @@ createApp({
 			this.user1 = undefined;
 			this.user2 = undefined;
 			this.currentGroupName = undefined;
-		}
+		},
   	},
 })
 .use(GraffitiPlugin, {

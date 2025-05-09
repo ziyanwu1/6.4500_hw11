@@ -31,6 +31,15 @@ h2 {
     font-size: 2rem;
 }
 
+h3 {
+    text-align: center;
+    font-size: 2rem;
+}
+
+.no-results {
+    color: red;
+}
+
 .home-bar {
     height: 5vh;
     padding: 2vh 2vw;
@@ -96,6 +105,21 @@ ul {
 }
 
 #message ul li {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 2vh 2vw;
+    border: 2px black solid;
+}
+
+#search ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#search ul li {
     width: 100%;
     display: flex;
     flex-direction: row;

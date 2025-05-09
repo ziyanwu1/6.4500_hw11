@@ -43,6 +43,9 @@
                     </fieldset>
                     <img id="create-dm-loading" src="loading.gif" alt="Loading Indicator">
                 </form>
+                
+                <!--search-->
+                <input v-if="($graffitiSession.value) && (currentGroupChannel !== undefined)" type="text" v-model="query" placeholder="Search DM">
             </div>
 
             <!--contacts page-->
@@ -86,7 +89,7 @@
             </div>
 
             <!--sending a message-->
-            <div id="message" class="page" v-if="(currentGroupChannel !== undefined) && ($graffitiSession.value !== null) && ($graffitiSession.value !== undefined)">
+            <div id="message" class="page" v-if="(currentGroupChannel !== undefined) && ($graffitiSession.value !== null) && ($graffitiSession.value !== undefined) && (query === '')">
                 <h2>{{currentGroupName}}</h2>
 
                 <a v-if="$graffitiSession.value.actor === user1" :href="'profile.html?id=' + user2">{{user2}}'s Profile</a>
@@ -144,6 +147,49 @@
                             </div>
                         </li>
                     </ul>
+                </graffiti-discover>
+            </div>
+
+            <!--search dm-->
+            <div id="search" class="page" v-if="(currentGroupChannel !== undefined) && ($graffitiSession.value !== null) && ($graffitiSession.value !== undefined) && (query !== '')">
+                <h2>Search: {{currentGroupName}}</h2>
+                <graffiti-discover
+                    v-if="$graffitiSession.value !== null"
+                    v-slot="{ objects: messageObjects, isInitialPolling }"
+                    :channels="currentGroupChannel"
+                    :schema="{
+                        properties: {
+                            value: {
+                                required: ['content', 'published'],
+                                properties: {
+                                    content: { type: 'string' },
+                                    published: { type: 'number' }
+                                }
+                            }
+                        }
+                    }"
+                >
+                    <h3 v-if="messageObjects.length === 0">There are currently no messages in this DM</h3>
+                    <ul v-else>
+                        <li v-if="isInitialPolling">Loading...</li>
+                        <li
+                            v-for="object of messageObjects.sort((a, b) => b.value.published - a.value.published).filter(msg => msg.value.content.includes(query))"
+                            v-if="messageObjects.filter(msg => msg.value.content.includes(query)).length !== 0"
+                            :key="object.url"
+                        >
+                            <div class="messages">
+                                <strong>
+                                    {{ object.actor }}
+                                    <span v-if="object.actor === $graffitiSession.value.actor">(you)</span>
+                                </strong>
+                                : {{ object.value.content }}
+                            </div>
+                        </li>
+                        <h3 class="no-results" v-else>
+                            No Results for: {{query}}
+                        </h3>
+                    </ul>
+
                 </graffiti-discover>
             </div>
         </div>
