@@ -132,10 +132,16 @@ ul {
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
     gap: 3vw;
     padding: 2vh 2vw;
     border: 2px black solid;
+}
+
+.chat-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 2vw;
 }
 
 #contacts ul li:hover {

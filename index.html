@@ -81,8 +81,10 @@
                         </li>
                         <li v-for="object of groupChatObjects" @click="setCurrentGroupChannel(object.value.object.channel, object.value.object.user1, object.value.object.user2, object.value.object.name)">
                             <p>{{object.value.object.name}}</p>
-                            <button v-if="object.actor === $graffitiSession.value.actor" @click.stop="renameGroupChat($graffitiSession.value, object.url)">Rename</button>
-                            <button v-if="object.actor === $graffitiSession.value.actor" @click.stop="deleteGroupChat($graffitiSession.value, object.url)">Delete</button>
+                            <div class="chat-buttons"> 
+                                <button v-if="object.actor === $graffitiSession.value.actor" @click.stop="renameGroupChat($graffitiSession.value, object.url)">Rename</button>
+                                <button v-if="object.actor === $graffitiSession.value.actor" @click.stop="deleteGroupChat($graffitiSession.value, object.url)">Delete</button>
+                            </div>
                         </li>
                     </ul>
                 </graffiti-discover>
