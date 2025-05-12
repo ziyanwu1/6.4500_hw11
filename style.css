@@ -7,7 +7,7 @@
 }
 
 input[type="text"] {
-    width: 300px;
+    width: 20vw;
 }
 
 :checked + input[type="text"] {
@@ -181,4 +181,26 @@ nav {
 nav a:hover {
     background-color: #00ffd0;
     transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+    ul {
+        width: 80vw;
+    }
+
+    .home-bar {
+        flex-direction: column;
+        gap: 2vh;
+        height: auto;
+    }
+
+    .home-bar form {
+        flex-direction: column;
+        gap: 2vh;
+    }
+
+    .home-bar form img {
+        height: 5vh;
+    }
+
 }
