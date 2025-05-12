@@ -174,12 +174,11 @@ nav {
     align-items: center;
     padding: 2vh 2vw;
     font-size: 1.5rem;
-    gap: 2vw;
+    gap: 5vw;
     background-color: sandybrown;
 }
 
 nav a:hover {
-    background-color: #00ffd0;
     transform: scale(1.1);
 }
 
@@ -201,6 +200,11 @@ nav a:hover {
 
     .home-bar form img {
         height: 5vh;
+    }
+    
+    .message-buttons {
+        width: auto;
+        gap: 2vw;
     }
 
 }
