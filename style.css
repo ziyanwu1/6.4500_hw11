@@ -182,6 +182,14 @@ nav a:hover {
     transform: scale(1.1);
 }
 
+.your-message {
+    background-color: lightblue;
+}
+
+.their-message {
+    background-color: lightgreen;
+}
+
 @media (max-width: 768px) {
     ul {
         width: 80vw;
